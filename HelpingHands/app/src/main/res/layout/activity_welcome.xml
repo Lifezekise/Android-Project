@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This XML layout defines the welcome screen based on the Helping Hands PDF. -->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="0dp"
+        android:gravity="center_horizontal"
+        android:background="#FCFAF9">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/welcome_to"
+            android:textColor="#2563EB"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="30dp"
+            android:contentDescription="@string/helping_hands_logo"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/this_app_serves_as_a_bridge_between_community_members_who_are_willing_to_assist_those_in_need_and_the_relevant_organizations_offering_the_help_needed"
+            android:textSize="16sp"
+            android:textColor="#4B5563"
+            android:gravity="center"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Find shelters, food, and support in Cape Town"
+            android:textSize="16sp"
+            android:textColor="#4B5563"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" />
+
+        <Button
+            android:id="@+id/btnReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Report a homeless individual!"
+            android:backgroundTint="#2563EB"
+            android:textColor="@android:color/white"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnSkip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Skip"
+            android:backgroundTint="#F3F4F6"
+            android:textColor="#2563EB"
+            android:padding="16dp"
+
+            android:layout_marginBottom="32dp" />
+
+        <TextView
+            android:id="@+id/tvHelpline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_line_27_65_636_6600"
+            android:textSize="16sp"
+            android:textColor="#4B5563"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="#FCFAF9"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_language"
+            android:textSize="14sp"
+            android:textColor="#4B5563" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="0dp">
+            <Button
+                android:id="@+id/tvLanguageEnglish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="English"
+                android:backgroundTint="#2563EB"
+                android:textColor="@android:color/white"
+                android:padding="5dp"
+                android:layout_marginBottom="16dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" | "
+                android:textColor="#4B5563" />
+            <Button
+                android:id="@+id/tvLanguageIsiXhosa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IsiXhosa"
+                android:backgroundTint="#2563EB"
+                android:textColor="@android:color/white"
+                android:padding="5dp"
+                android:layout_marginBottom="16dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" | "
+                android:textColor="#4B5563" />
+            <Button
+                android:id="@+id/tvLanguageAfrikaans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Afrikaans"
+                android:backgroundTint="#2563EB"
+                android:textColor="@android:color/white"
+                android:padding="5dp"
+                android:layout_marginBottom="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvModeInternet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Internet mode"
+                android:textColor="#4B5563"
+                android:textStyle="bold"
+                android:paddingEnd="8dp"
+                android:clickable="true"
+                android:focusable="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" | "
+                android:textColor="#4B5563" />
+            <TextView
+                android:id="@+id/tvModeOffline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Offline mode"
+                android:textColor="#4B5563"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

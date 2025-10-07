@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+       <style name="Theme.Material3.DayNight.NoActionBar" parent="Theme.Material3.DayNight">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+       </style>
+    <style name="FilterButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:paddingHorizontal">16dp</item>
+    </style>
+</resources>

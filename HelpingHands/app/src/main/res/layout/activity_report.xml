@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="#FCFAF9">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="#FCFAF9"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/report_individual"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="32dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/full_name"
+            android:textSize="16sp"
+            android:textColor="#374151"/>
+        <EditText
+            android:id="@+id/etFullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:hint="@string/enter_full_name"
+            android:inputType="textCapWords"
+            android:padding="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded_edittext_bg"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gender"
+            android:textSize="16sp"
+            android:textColor="#374151"
+            android:layout_marginTop="16dp"/>
+        <Spinner
+            android:id="@+id/spGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:prompt="@string/gender_label"
+            android:layout_marginTop="4dp"
+            android:padding="12dp"
+            android:background="@drawable/rounded_spinner_bg"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/location"
+            android:textSize="16sp"
+            android:textColor="#374151"
+            android:layout_marginTop="16dp"/>
+        <Button
+            android:id="@+id/btnShareLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/share_location"
+            android:backgroundTint="#2563EB"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/condition"
+            android:textSize="16sp"
+            android:textColor="#374151"
+            android:layout_marginTop="16dp"/>
+        <EditText
+            android:id="@+id/etCondition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/tell_more_about_the_individual_s_condition"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:minLines="3"
+            android:padding="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded_edittext_bg"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save_and_continue"
+            android:backgroundTint="#2563EB"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="32dp"
+            android:padding="16dp"/>
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back_to_dashboard_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#2563EB"
+            android:textColor="@android:color/white"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="12dp"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+</ScrollView>

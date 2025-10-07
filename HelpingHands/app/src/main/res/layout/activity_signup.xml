@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="#FCFAF9">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="#FCFAF9"
+        android:layout_marginHorizontal="0dp"
+        android:layout_marginVertical="20dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_up"
+            android:textSize="24sp"
+            android:textColor="#2563EB"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="32dp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Full Name"
+            android:textSize="14sp"
+            android:textColor="#374151"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:id="@+id/etFullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_your_full_name"
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded_edittext_bg"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/username"
+            android:textSize="14sp"
+            android:textColor="#374151"
+            android:layout_marginTop="16dp"/>
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_email"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded_edittext_bg"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/password"
+            android:textSize="14sp"
+            android:textColor="#374151"
+            android:layout_marginTop="16dp"/>
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/must_be_at_least_8_characters"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded_edittext_bg"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/re_enter_password"
+            android:textSize="14sp"
+            android:textColor="#374151"
+            android:layout_marginTop="16dp"/>
+        <EditText
+            android:id="@+id/etConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Re-enter password"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded_edittext_bg"
+            tools:ignore="HardcodedText" />
+
+
+        <CheckBox
+            android:id="@+id/cbTerms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="I agree to the Terms and Conditions"
+            android:layout_marginTop="10dp"
+            android:buttonTint="#2563EB"
+            android:textColor="#374151"
+            tools:ignore="HardcodedText" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="32dp"
+            android:padding="12dp"
+            android:background="@drawable/rounded_recaptcha_bg">
+
+            <CheckBox
+                android:id="@+id/cbNotRobot"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="I'm not a robot"
+                android:buttonTint="#2563EB"
+                android:textColor="#374151"/>
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_recaptcha_placeholder"
+                android:contentDescription="reCAPTCHA logo"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btnSignup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#2563EB"
+            android:layout_marginTop="5dp"/>
+
+        <!-- Login Link -->
+        <TextView
+            android:id="@+id/tvLoginLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account? Log In"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textColor="#2563EB"
+            android:clickable="true"
+            android:focusable="true"/>
+    </LinearLayout>
+</ScrollView>

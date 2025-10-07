@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FCFAF9"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Helping Hands"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#2563EB"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Find shelters, healthcare, and food resources near you"
+            android:textSize="16sp"
+            android:textColor="#4B5563"
+            android:layout_marginBottom="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/searchLayout"
+        android:layout_below="@id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_edittext_bg"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp">
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Search for shelters, food, healthcare..."
+            android:textColor="#000000"
+            android:textColorHint="#9CA3AF"
+            android:background="@null"
+            android:padding="12dp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"/>
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Search"
+            android:text="🔍"
+            android:textColor="#2563EB"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/filterScrollView"
+        android:layout_below="@id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnShelters"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Shelters"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#10B981"
+                android:paddingHorizontal="16dp"
+                style="@style/FilterButtonStyle"/>
+
+            <Button
+                android:id="@+id/btnHealthcare"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Healthcare"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#EF4444"
+                android:paddingHorizontal="16dp"
+                style="@style/FilterButtonStyle"/>
+
+            <Button
+                android:id="@+id/btnFood"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Food"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#F59E0B"
+                android:paddingHorizontal="16dp"
+                style="@style/FilterButtonStyle"/>
+
+            <Button
+                android:id="@+id/btnAll"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="All Resources"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#2563EB"
+                android:paddingHorizontal="16dp"
+                style="@style/FilterButtonStyle"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <FrameLayout
+        android:id="@+id/mapContainer"
+        android:layout_below="@id/filterScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/buttonLayout"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/map_border">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".dashboard.ResourcesActivity"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabCurrentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:contentDescription="Current location"
+            android:src="@android:drawable/ic_menu_mylocation"
+            app:backgroundTint="#2563EB"
+            app:tint="#FFFFFF" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Back to Dashboard"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2563EB"
+            android:layout_marginEnd="4dp"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+        <Button
+            android:id="@+id/btnDirections"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Get Directions"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2563EB"
+            android:layout_marginStart="4dp"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+    </LinearLayout>
+
+</RelativeLayout>

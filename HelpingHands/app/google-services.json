@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "818976169579",
+    "project_id": "helphing-hands",
+    "storage_bucket": "helphing-hands.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818976169579:android:abe2b192a4c0b41f17db2e",
+        "android_client_info": {
+          "package_name": "com.athisintiya.helpinghands"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBVEaXWFpAfuWWzyS-qR4TVK_Q3MrTICs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

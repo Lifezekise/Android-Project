@@ -1,0 +1,55 @@
+# This file is for the Gradle Version Catalog, which manages dependencies centrally.
+# The 'versions' section defines reusable version numbers.
+# The 'libraries' section defines the actual library dependencies with groups, names, and versions.
+# The 'bundles' section groups multiple libraries together.
+
+[versions]
+# Version for Androidx Core KTX, providing Kotlin extensions.
+androidx-core-ktx = "1.12.0"
+
+# Version for Androidx Lifecycle Runtime KTX, for lifecycle-aware components.
+androidx-lifecycle-runtime-ktx = "2.6.2"
+
+# Version for Androidx Activity Compose, for hosting Compose UIs.
+androidx-activity-compose = "1.8.2"
+
+# Version for the Compose Bill of Materials (BOM), to manage all Compose versions.
+androidx-compose-bom = "2023.08.00"
+
+# Version for Compose UI libraries.
+androidx-ui = "1.5.4"
+
+# Version for Material Design 3 components.
+androidx-material3 = "1.1.2"
+
+# Version for JUnit, for unit testing.
+junit = "4.13.2"
+
+# Version for Androidx Test JUnit, for instrumented tests.
+androidx-test-ext-junit = "1.1.5"
+
+# Version for Androidx Espresso Core, for UI testing.
+androidx-espresso-core = "3.5.1"
+firebase-perf-ktx = "22.0.0"
+
+[libraries]
+# Lifecycle dependencies
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-runtime-ktx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
+
+# Compose UI dependencies
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-compose-bom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "androidx-ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "androidx-ui" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "androidx-ui" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidx-material3" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "androidx-ui" }
+
+# Testing dependencies
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "androidx-ui" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "androidx-ui" }
+firebase-perf-ktx = { group = "com.google.firebase", name = "firebase-perf-ktx", version.ref = "firebase-perf-ktx" }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From activity_goods_donation.xml -->
+    <item name="goodsTypeSpinner" type="id"/>
+    <item name="quantityEditText" type="id"/>
+    <item name="newConditionCheckBox" type="id"/>
+    <item name="descriptionEditText" type="id"/>
+    <item name="submitButton" type="id"/>
+    <item name="backButton" type="id"/>
+
+    <!-- From activity_login.xml -->
+    <item name="etEmail" type="id"/>
+    <item name="tvForgotUsername" type="id"/>
+    <item name="etPassword" type="id"/>
+    <item name="tvForgotPassword" type="id"/>
+    <item name="btnLogin" type="id"/>
+    <item name="tvSignupLink" type="id"/>
+
+    <!-- From activity_welcome.xml -->
+    <item name="btnReport" type="id"/>
+    <item name="btnSkip" type="id"/>
+
+    <!-- From activity_donate.xml -->
+    <item name="titleLabel" type="id"/>
+    <item name="amountField" type="id"/>
+    <item name="moneyBtn" type="id"/>
+    <item name="foodButton" type="id"/>
+    <item name="goodsButton" type="id"/>
+
+    <!-- From activity_report.xml -->
+    <item name="etFullName" type="id"/>
+    <item name="spGender" type="id"/>
+    <item name="btnShareLocation" type="id"/>
+    <item name="etCondition" type="id"/>
+    <item name="btnSave" type="id"/>
+    <item name="btnBack" type="id"/>
+
+    <!-- From activity_resources.xml -->
+    <item name="etSearch" type="id"/>
+
+    <!-- From activity_signup.xml -->
+    <item name="cbTerms" type="id"/>
+    <item name="cbNotRobot" type="id"/>
+    <item name="btnSignup" type="id"/>
+    <item name="tvLoginLink" type="id"/>
+
+    <!-- From activity_volunteer.xml -->
+    <item name="volunteer_title_label" type="id"/>
+    <item name="volunteer_description_label" type="id"/>
+    <item name="role_label" type="id"/>
+    <item name="spRole" type="id"/>
+<!--    <item name="cbTerms" type="id"/>-->
+    <item name="btnVolunteer" type="id"/>
+    <item name="tvSkip" type="id"/>
+
+    <!-- From activity_account.xml -->
+    <item name="tvFullName" type="id"/>
+    <item name="tvUsername" type="id"/>
+
+    <!-- From activity_main.xml -->
+    <item name="urgent_label" type="id"/>
+    <item name="app_name_label" type="id"/>
+    <item name="find_help_button" type="id"/>
+    <item name="donate_button" type="id"/>
+    <item name="volunteer_button" type="id"/>
+    <item name="account_button" type="id"/>
+    <item name="resources_label" type="id"/>
+</resources>

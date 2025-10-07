@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FCFAF9"
+    android:padding="30dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/volunteer_title_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/volunteer_title"
+        android:textSize="24sp"
+        android:textColor="#2563EB"
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:id="@+id/volunteer_description_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/volunteer_description"
+        android:layout_marginBottom="20dp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/role_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/volunteer_role_label"
+        android:textStyle="bold"
+        android:layout_marginBottom="5dp" />
+
+    <Spinner
+        android:id="@+id/spRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/volunteer_roles"
+        android:backgroundTint="#dcdcdc"
+        android:layout_marginBottom="20dp" />
+
+    <CheckBox
+        android:id="@+id/cbTerms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/volunteer_terms"
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        android:id="@+id/btnVolunteer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/volunteer_button"
+        android:backgroundTint="#2563EB"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/tvSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Skip"
+        android:layout_marginTop="10dp"
+        android:textColor="#2563EB"
+        android:textSize="16sp"
+        android:clickable="true"
+        android:focusable="true" />
+</LinearLayout>
