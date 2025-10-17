@@ -1,31 +1,28 @@
 package com.athisintiya.helpinghands.dashboard;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.athisintiya.helpinghands.R;
-import com.athisintiya.helpinghands.repository.UserRepository;
+import com.athisintiya.helpinghands.databinding.ActivityFoodDonationBinding;
 import com.athisintiya.helpinghands.utils.NavigationHelper;
 import com.athisintiya.helpinghands.utils.SessionManager;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FoodDonationActivity extends AppCompatActivity {
-    private Spinner foodTypeSpinner;
-    private EditText etQuantity, etSpecialInstructions;
-    private CheckBox cbPerishable;
-    private Button btnSubmit, btnBack;
+    private ActivityFoodDonationBinding binding;
     private NavigationHelper navigationHelper;
-    private UserRepository userRepository;
     private SessionManager sessionManager;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private static final String KEY_FOOD_TYPE = "food_type";
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_PERISHABLE = "perishable";
@@ -34,102 +31,98 @@ public class FoodDonationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_donation);
+        binding = ActivityFoodDonationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         navigationHelper = new NavigationHelper(this);
-        userRepository = UserRepository.getInstance(this);
         sessionManager = new SessionManager(this);
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-        fixTextColors();
-
-        foodTypeSpinner = findViewById(R.id.spFoodType);
-        etQuantity = findViewById(R.id.etQuantity);
-        cbPerishable = findViewById(R.id.cbPerishable);
-        etSpecialInstructions = findViewById(R.id.etSpecialInstructions);
-        btnSubmit = findViewById(R.id.btnSubmit);
-        btnBack = findViewById(R.id.btnBack);
-
-        // Set up food type spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.food_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        foodTypeSpinner.setAdapter(adapter);
+        binding.spFoodType.setAdapter(adapter);
+
+        binding.btnSubmit.setOnClickListener(v -> submitDonation());
+        binding.btnBack.setOnClickListener(v -> navigationHelper.navigateToMain());
 
         if (savedInstanceState != null) {
-            foodTypeSpinner.setSelection(savedInstanceState.getInt(KEY_FOOD_TYPE, 0));
-            etQuantity.setText(savedInstanceState.getString(KEY_QUANTITY, ""));
-            cbPerishable.setChecked(savedInstanceState.getBoolean(KEY_PERISHABLE, false));
-            etSpecialInstructions.setText(savedInstanceState.getString(KEY_INSTRUCTIONS, ""));
+            binding.spFoodType.setSelection(savedInstanceState.getInt(KEY_FOOD_TYPE));
+            binding.etQuantity.setText(savedInstanceState.getString(KEY_QUANTITY));
+            binding.cbPerishable.setChecked(savedInstanceState.getBoolean(KEY_PERISHABLE));
+            binding.etSpecialInstructions.setText(savedInstanceState.getString(KEY_INSTRUCTIONS));
         }
-
-        btnSubmit.setOnClickListener(v -> submitDonation());
-        btnBack.setOnClickListener(v -> navigationHelper.navigateToMain());
-    }
-
-    private void fixTextColors() {
-        ViewGroup rootView = (ViewGroup) findViewById(android.R.id.content);
-        changeTextColorsRecursive(rootView);
-    }
-
-    private void changeTextColorsRecursive(ViewGroup viewGroup) {
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            View child = viewGroup.getChildAt(i);
-
-            if (child instanceof TextView) {
-                ((TextView) child).setTextColor(Color.BLACK);
-            }
-            if (child instanceof EditText) {
-                ((EditText) child).setTextColor(Color.BLACK);
-                ((EditText) child).setHintTextColor(Color.GRAY);
-            }
-            if (child instanceof ViewGroup) {
-                changeTextColorsRecursive((ViewGroup) child);
-            }
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(KEY_FOOD_TYPE, foodTypeSpinner.getSelectedItemPosition());
-        outState.putString(KEY_QUANTITY, etQuantity.getText().toString());
-        outState.putBoolean(KEY_PERISHABLE, cbPerishable.isChecked());
-        outState.putString(KEY_INSTRUCTIONS, etSpecialInstructions.getText().toString());
     }
 
     private void submitDonation() {
-        String foodType = foodTypeSpinner.getSelectedItem() != null ? foodTypeSpinner.getSelectedItem().toString() : "";
-        String quantity = etQuantity.getText().toString().trim();
-        boolean isPerishable = cbPerishable.isChecked();
-        String instructions = etSpecialInstructions.getText().toString().trim();
+        String foodType = binding.spFoodType.getSelectedItem() != null ? binding.spFoodType.getSelectedItem().toString() : "";
+        String quantity = binding.etQuantity.getText().toString().trim();
+        boolean isPerishable = binding.cbPerishable.isChecked();
+        String instructions = binding.etSpecialInstructions.getText().toString().trim();
 
         if (TextUtils.isEmpty(foodType) || foodType.equals("Fruits and Vegetables")) {
-            Toast.makeText(this, "Please select a food type", Toast.LENGTH_SHORT).show();
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage("Select food type")
+                    .setPositiveButton("OK", null)
+                    .show();
             return;
         }
 
         if (TextUtils.isEmpty(quantity)) {
-            etQuantity.setError("Please enter quantity");
+            binding.etQuantity.setError("Required");
             return;
         }
 
         try {
             int qty = Integer.parseInt(quantity);
             if (qty <= 0) {
-                etQuantity.setError("Please enter a positive quantity");
+                binding.etQuantity.setError("Positive quantity required");
                 return;
             }
 
-            String email = sessionManager.getUserEmail();
-            if (email != null) {
-                userRepository.recordDonation(email);
-                Toast.makeText(this, "Food donation submitted successfully", Toast.LENGTH_SHORT).show();
-                navigationHelper.navigateToMain();
+            com.google.firebase.auth.FirebaseUser fbUser = mAuth.getCurrentUser();
+            if (fbUser != null) {
+                Map<String, Object> donation = new HashMap<>();
+                donation.put("userId", fbUser.getUid());
+                donation.put("foodType", foodType);
+                donation.put("quantity", qty);
+                donation.put("perishable", isPerishable);
+                donation.put("instructions", instructions);
+                donation.put("type", "food");
+                donation.put("timestamp", System.currentTimeMillis());
+                db.collection("donations").add(donation);
+
+                db.collection("users").document(fbUser.getUid())
+                        .update("donationCount", com.google.firebase.firestore.FieldValue.increment(1));
+
+                new MaterialAlertDialogBuilder(this)
+                        .setMessage("Food donation submitted")
+                        .setPositiveButton("OK", (dialog, which) -> navigationHelper.navigateToMain())
+                        .show();
             } else {
-                Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+                new MaterialAlertDialogBuilder(this)
+                        .setMessage("User not logged in")
+                        .setPositiveButton("OK", null)
+                        .show();
             }
         } catch (NumberFormatException e) {
-            etQuantity.setError("Please enter a valid number");
+            binding.etQuantity.setError("Valid number required");
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_FOOD_TYPE, binding.spFoodType.getSelectedItemPosition());
+        outState.putString(KEY_QUANTITY, binding.etQuantity.getText().toString());
+        outState.putBoolean(KEY_PERISHABLE, binding.cbPerishable.isChecked());
+        outState.putString(KEY_INSTRUCTIONS, binding.etSpecialInstructions.getText().toString());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }

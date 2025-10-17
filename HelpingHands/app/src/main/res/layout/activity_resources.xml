@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FCFAF9"
+    android:background="@color/background"
     android:padding="16dp">
 
+    <!-- Header Layout -->
     <LinearLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
@@ -20,7 +21,7 @@
             android:text="Helping Hands"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="#2563EB"
+            android:textColor="@color/primary"
             android:layout_marginBottom="4dp"/>
 
         <TextView
@@ -28,10 +29,11 @@
             android:layout_height="wrap_content"
             android:text="Find shelters, healthcare, and food resources near you"
             android:textSize="16sp"
-            android:textColor="#4B5563"
+            android:textColor="@color/on_surface_variant"
             android:layout_marginBottom="16dp"/>
     </LinearLayout>
 
+    <!-- Search Layout -->
     <LinearLayout
         android:id="@+id/searchLayout"
         android:layout_below="@id/headerLayout"
@@ -48,24 +50,26 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Search for shelters, food, healthcare..."
-            android:textColor="#000000"
-            android:textColorHint="#9CA3AF"
+            android:textColor="@color/on_surface"
+            android:textColorHint="@color/on_surface_variant"
             android:background="@null"
             android:padding="12dp"
             android:imeOptions="actionSearch"
             android:inputType="text"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSearch"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Search"
-            android:text="🔍"
-            android:textColor="#2563EB"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            app:icon="@drawable/ic_search"
+            app:iconTint="@color/primary"
+            style="@style/Widget.Material3.IconButton"
+            app:backgroundTint="@android:color/transparent"/>
     </LinearLayout>
 
+    <!-- Filter Chips (REPLACED BUTTONS) -->
     <HorizontalScrollView
         android:id="@+id/filterScrollView"
         android:layout_below="@id/searchLayout"
@@ -74,56 +78,169 @@
         android:layout_marginBottom="16dp"
         android:scrollbars="none">
 
-        <LinearLayout
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="4dp"
+            app:singleSelection="true"
+            app:selectionRequired="true">
 
-            <Button
-                android:id="@+id/btnShelters"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipShelters"
+                style="@style/FilterChipStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:text="Shelters"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#10B981"
-                android:paddingHorizontal="16dp"
-                style="@style/FilterButtonStyle"/>
+                android:checkable="true"
+                app:chipIcon="@drawable/ic_shelter"
+                app:chipIconTint="@color/on_surface_variant" />
 
-            <Button
-                android:id="@+id/btnHealthcare"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipHealthcare"
+                style="@style/FilterChipStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:text="Healthcare"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#EF4444"
-                android:paddingHorizontal="16dp"
-                style="@style/FilterButtonStyle"/>
+                android:checkable="true"
+                app:chipIcon="@drawable/ic_healthcare"
+                app:chipIconTint="@color/on_surface_variant" />
 
-            <Button
-                android:id="@+id/btnFood"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFood"
+                style="@style/FilterChipStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:text="Food"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#F59E0B"
-                android:paddingHorizontal="16dp"
-                style="@style/FilterButtonStyle"/>
+                android:checkable="true"
+                app:chipIcon="@drawable/ic_food"
+                app:chipIconTint="@color/on_surface_variant" />
 
-            <Button
-                android:id="@+id/btnAll"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAll"
+                style="@style/FilterChipStyleSelected"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:text="All Resources"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#2563EB"
-                android:paddingHorizontal="16dp"
-                style="@style/FilterButtonStyle"/>
-        </LinearLayout>
+                android:checked="true"
+                android:checkable="true"
+                app:chipIcon="@drawable/ic_all"
+                app:chipIconTint="@color/white" />
+
+        </com.google.android.material.chip.ChipGroup>
+
     </HorizontalScrollView>
 
+    <!-- Nearest Resource Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardNearestResource"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CardStyle"
+        android:layout_below="@id/filterScrollView"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/ivResourceIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    app:tint="@color/primary" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="📍 Nearest Resource"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/on_surface" />
+
+                <TextView
+                    android:id="@+id/tvResourceStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🟢 Open"
+                    android:textSize="12sp"
+                    android:textColor="@color/success"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvResourceName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cape Town Central Shelter"
+                android:textSize="14sp"
+                android:textColor="@color/on_surface"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/tvResourceAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="123 Long Street, Cape Town"
+                android:textSize="12sp"
+                android:textColor="@color/on_surface_variant"
+                android:layout_marginTop="2dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tvResourceDistance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1.2 km away"
+                    android:textSize="12sp"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvResourceHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Open until 10 PM"
+                    android:textSize="12sp"
+                    android:textColor="@color/on_surface_variant" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGetDirections"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Get Directions"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_marginTop="12dp" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Map Container -->
     <FrameLayout
         android:id="@+id/mapContainer"
-        android:layout_below="@id/filterScrollView"
+        android:layout_below="@id/cardNearestResource"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_above="@+id/buttonLayout"
@@ -144,12 +261,13 @@
             android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
             android:contentDescription="Current location"
-            android:src="@android:drawable/ic_menu_mylocation"
-            app:backgroundTint="#2563EB"
-            app:tint="#FFFFFF" />
+            app:srcCompat="@drawable/ic_my_location"
+            app:backgroundTint="@color/primary"
+            app:tint="@color/white" />
 
     </FrameLayout>
 
+    <!-- Bottom Buttons -->
     <LinearLayout
         android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
@@ -159,27 +277,29 @@
         android:weightSum="2"
         android:padding="8dp">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBack"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:text="Back to Dashboard"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#2563EB"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/primary"
             android:layout_marginEnd="4dp"
-            style="@style/Widget.AppCompat.Button.Colored"/>
+            style="@style/Widget.Material3.Button"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDirections"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:text="Get Directions"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#2563EB"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/secondary"
             android:layout_marginStart="4dp"
-            style="@style/Widget.AppCompat.Button.Colored"/>
+            app:icon="@drawable/ic_directions"
+            app:iconTint="@color/white"
+            style="@style/Widget.Material3.Button"/>
     </LinearLayout>
 
 </RelativeLayout>

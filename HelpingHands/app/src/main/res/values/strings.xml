@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Helping Hands</string>
+    <string name="app_logo">Helping Hands application logo</string>
+    <string name="sign_in_subtitle">Sign in to continue making a difference</string>
     <string name="helping_hands">Helping Hands</string>
     <string name="my_account">My Account</string>
     <string name="my_account_button">My Account</string>
@@ -8,10 +10,10 @@
     <string name="username">Username</string>
     <string name="donation_count">Donation Count</string>
     <string name="back_to_dashboard">Back to Dashboard</string>
-    <string name="back_to_dashboard_button">Back to Dashboard</string> <!-- Added for layouts -->
+    <string name="back_to_dashboard_button">Back to Dashboard</string>
     <string name="logout">Logout</string>
     <string name="donate_title">Make a Donation</string>
-    <string name="amount">Amount</string> <!-- Added for activity_donate.xml -->
+    <string name="amount">Amount</string>
     <string name="amount_hint">Enter amount</string>
     <string name="donate_money_button">Donate Money</string>
     <string name="food_donation_button">Donate Food</string>
@@ -31,36 +33,48 @@
     <string name="find_help_button">Find Help</string>
     <string name="donate_button">Donate</string>
     <string name="volunteer_button_main">Volunteer</string>
-    <string name="resources_title">Nearby Resources</string>
-    <string name="gender">Gender</string>
+    <string name="resources_label">Resources</string>
+    <string name="report_individual">Report Individual</string>
+    <string name="enter_full_name">Enter full name</string>
     <string name="gender_label">Gender</string>
+    <string name="share_location">Share Location</string>
     <string name="tell_more_about_the_individual_s_condition">Tell more about the individual\'s condition</string>
     <string name="save_and_continue">Save and Continue</string>
-    <string name="must_be_at_least_8_characters">Must be at least 8 characters</string>
-    <string name="re_enter_password">Re-enter Password</string>
-    <string name="volunteer_title">Become a Volunteer</string>
-    <string name="volunteer_description">Join our team and make a difference in your community</string>
-    <string name="volunteer_role_label">Select Volunteer Role</string>
-    <string name="volunteer_terms">I agree to the Terms and Conditions</string>
-    <string name="volunteer_button">Register as Volunteer</string>
-    <string name="report_individual">Report an Individual</string>
-    <string name="enter_full_name">Enter full name</string>
-    <string name="select_gender">Select gender</string>
-    <string name="location">Location</string>
-    <string name="google_maps_key">AIzaSyCgx-e9fwMhtHzDV_dKoJvalVv6p-eE8pg</string>
-    <string name="share_location">Share Location</string>
-    <string name="condition">Condition</string>
+    <string name="volunteer_title">Volunteer</string>
+    <string name="volunteer_description">Help us make a difference</string>
+    <string name="role_label">Role</string>
+    <string name="terms_and_conditions">I agree to the Terms and Conditions</string>
+    <string name="volunteer_button">Volunteer</string>
+    <string name="skip">Skip</string>
     <string name="sign_up">Sign Up</string>
-    <string name="enter_your_full_name">Enter your full name</string>
-    <string name="enter_email">Enter email</string>
-    <string name="password">Password</string>
+    <string name="re_enter_password">Re-enter Password</string>
+    <string name="already_have_account">Already have an account? Log In</string>
+    <string name="log_in">Log In</string>
+    <string name="forgot_username">Forgot username?</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign Up</string>
     <string name="helping_hands_logo">Helping Hands Logo</string>
     <string name="this_app_serves_as_a_bridge_between_community_members_who_are_willing_to_assist_those_in_need_and_the_relevant_organizations_offering_the_help_needed">This App serves as a bridge between community members who are willing to assist those in need and the relevant organizations offering the help needed</string>
-    <string name="welcome_to">Welcome to</string>
     <string name="help_line_27_65_636_6600">Help Line: +27 65 636 6600</string>
     <string name="choose_language">Choose language</string>
+    <string name="welcome_to">Welcome to Helping Hands</string>
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Close Drawer</string>
+    <string name="google_maps_key">YOUR_GOOGLE_MAPS_API_KEY</string>
+    <string name="money_donation_title">Money Donation</string>
+    <string name="back_to_donate_button">Back to Donate</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="gender">Gender</string>
+    <string name="condition">Condition &amp; Notes</string>
+    <string name="profile_complete">Profile Complete ✓</string>
+    <string name="profile_incomplete">Profile Incomplete</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <!-- Add these to your existing strings.xml -->
+    <string name="volunteer_role_label">Volunteer Role</string>
+    <string name="volunteer_terms">I agree to the terms and conditions</string>
     <string-array name="volunteer_roles">
-
         <item>--select--</item>
         <item>Cleaning</item>
         <item>Cooking and Serving</item>

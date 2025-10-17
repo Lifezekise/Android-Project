@@ -4,6 +4,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.firebase-perf")
+    id("kotlin-kapt")
 }
 
 android {
@@ -19,7 +20,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-
     }
 
     buildTypes {
@@ -29,10 +29,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        debug {
-            // Enable for debug builds if needed
-            isDebuggable = true
         }
     }
 
@@ -49,64 +45,42 @@ android {
         viewBinding = true
         buildConfig = true
     }
-
-    // Add packaging options to avoid conflicts
-    packaging {
-        resources {
-            excludes += setOf(
-                "META-INF/DEPENDENCIES",
-                "META-INF/LICENSE",
-                "META-INF/LICENSE.txt",
-                "META-INF/NOTICE",
-                "META-INF/NOTICE.txt",
-                "META-INF/AL2.0",
-                "META-INF/LGPL2.1"
-            )
-        }
-    }
 }
 
 dependencies {
-    // AndroidX Core
-    implementation("androidx.core:core-ktx:1.12.0")
-
-    // AppCompat
+    // Core Android
+    implementation("androidx.core:core-ktx:1.13.0")  // Updated to newer version
     implementation("androidx.appcompat:appcompat:1.6.1")
-
-    // Material Design (SINGLE VERSION - remove duplicate)
     implementation("com.google.android.material:material:1.11.0")
-
-    // ConstraintLayout
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    // Navigation Component
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+    // Navigation
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")  // Updated
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")  // Updated
 
-    // Lifecycle components
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    // Lifecycle
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")  // Updated
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")  // Updated
 
-    // Firebase BoM (Bill of Materials)
-    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
-
-    // Firebase Analytics
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))  // Updated BOM version
     implementation("com.google.firebase:firebase-analytics-ktx")
-
-    // Firebase Crashlytics
     implementation("com.google.firebase:firebase-crashlytics-ktx")
-
-    // Firebase Performance Monitoring
     implementation("com.google.firebase:firebase-perf-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")  // Added explicit dependency
+    implementation("com.google.firebase:firebase-firestore-ktx")  // Added explicit dependency
 
-    // Google Maps & Location Services
+    // Google Maps
     implementation("com.google.android.gms:play-services-maps:18.2.0")
-    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.google.android.gms:play-services-location:21.2.0")  // Updated
 
-    // Optional: Add these for better compatibility
-    implementation("androidx.activity:activity-ktx:1.8.2")
-    implementation("androidx.fragment:fragment-ktx:1.6.2")
+    // Image Loading
+    implementation("com.github.bumptech.glide:glide:4.16.0")  // Updated
+    kapt("com.github.bumptech.glide:compiler:4.16.0")  // You can use kapt with newer versions
+
+    // Circular Image View
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

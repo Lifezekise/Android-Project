@@ -31,6 +31,8 @@ androidx-test-ext-junit = "1.1.5"
 # Version for Androidx Espresso Core, for UI testing.
 androidx-espresso-core = "3.5.1"
 firebase-perf-ktx = "22.0.0"
+firebase-auth = "24.0.1"
+firebase-firestore = "26.0.2"
 
 [libraries]
 # Lifecycle dependencies
@@ -53,3 +55,5 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "androidx-ui" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "androidx-ui" }
 firebase-perf-ktx = { group = "com.google.firebase", name = "firebase-perf-ktx", version.ref = "firebase-perf-ktx" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebase-auth" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebase-firestore" }

@@ -1,121 +1,189 @@
 package com.athisintiya.helpinghands.dashboard;
 
-import android.graphics.Color;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
-import com.athisintiya.helpinghands.R;
-import com.athisintiya.helpinghands.utils.NavigationHelper;
 
-public class ReportActivity extends AppCompatActivity {
-    private EditText etFullName, etCondition;
-    private Spinner spGender;
-    private Button btnShareLocation, btnSave;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import com.athisintiya.helpinghands.R;
+import com.athisintiya.helpinghands.databinding.ActivityReportBinding;
+import com.athisintiya.helpinghands.utils.NavigationHelper;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ReportActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private ActivityReportBinding binding;
     private NavigationHelper navigationHelper;
+    private GoogleMap mMap;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LatLng selectedLocation;
+    private FirebaseFirestore db;
     private static final String KEY_FULL_NAME = "full_name";
     private static final String KEY_GENDER = "gender";
     private static final String KEY_CONDITION = "condition";
+    private static final String KEY_LAT = "lat";
+    private static final String KEY_LNG = "lng";
+
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    getUserLocation();
+                } else {
+                    Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report);
+        binding = ActivityReportBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         navigationHelper = new NavigationHelper(this);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        db = FirebaseFirestore.getInstance();
 
-        // Fix text colors without needing IDs
-        fixTextColors();
-
-        // Initialize views
-        etFullName = findViewById(R.id.etFullName);
-        spGender = findViewById(R.id.spGender);
-        btnShareLocation = findViewById(R.id.btnShareLocation);
-        etCondition = findViewById(R.id.etCondition);
-        btnSave = findViewById(R.id.btnSave);
-        Button btnBack = findViewById(R.id.btnBack);
-
-        // Set up gender spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.genders, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spGender.setAdapter(adapter);
+        binding.spGender.setAdapter(adapter);
 
-        // Restore state if available
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
+
+        binding.btnSave.setOnClickListener(v -> saveReport());
+        binding.btnBack.setOnClickListener(v -> navigationHelper.navigateToMain());
+
         if (savedInstanceState != null) {
-            etFullName.setText(savedInstanceState.getString(KEY_FULL_NAME, ""));
-            spGender.setSelection(savedInstanceState.getInt(KEY_GENDER, 0));
-            etCondition.setText(savedInstanceState.getString(KEY_CONDITION, ""));
-        }
-
-        // Set click listeners
-        btnShareLocation.setOnClickListener(v -> shareLocation());
-        btnSave.setOnClickListener(v -> saveReport());
-        btnBack.setOnClickListener(v -> navigationHelper.navigateToMain());
-    }
-
-    private void fixTextColors() {
-        ViewGroup rootView = (ViewGroup) findViewById(android.R.id.content);
-        changeTextColorsRecursive(rootView);
-    }
-
-    private void changeTextColorsRecursive(ViewGroup viewGroup) {
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            View child = viewGroup.getChildAt(i);
-
-            if (child instanceof TextView) {
-                ((TextView) child).setTextColor(Color.BLACK);
+            binding.etFullName.setText(savedInstanceState.getString(KEY_FULL_NAME));
+            // For AutoCompleteTextView, set text instead of selection
+            if (savedInstanceState.getString(KEY_GENDER) != null) {
+                binding.spGender.setText(savedInstanceState.getString(KEY_GENDER));
             }
-            if (child instanceof EditText) {
-                ((EditText) child).setTextColor(Color.BLACK);
-                ((EditText) child).setHintTextColor(Color.GRAY);
-            }
-            if (child instanceof ViewGroup) {
-                changeTextColorsRecursive((ViewGroup) child);
+            binding.etCondition.setText(savedInstanceState.getString(KEY_CONDITION));
+            double lat = savedInstanceState.getDouble(KEY_LAT, 0);
+            double lng = savedInstanceState.getDouble(KEY_LNG, 0);
+            if (lat != 0 && lng != 0) {
+                selectedLocation = new LatLng(lat, lng);
             }
         }
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-33.9249, 18.4241), 12)); // Cape Town
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+            getUserLocation();
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+
+        mMap.setOnMapClickListener(latLng -> {
+            mMap.clear();
+            mMap.addMarker(new MarkerOptions().position(latLng).title("Selected Location"));
+            selectedLocation = latLng;
+        });
+    }
+
+    private void getUserLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                if (location != null) {
+                    LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15));
+                }
+            });
+        }
+    }
+
+    private void saveReport() {
+        String fullName = binding.etFullName.getText().toString().trim();
+        // Use getText() for AutoCompleteTextView instead of getSelectedItem()
+        String gender = binding.spGender.getText().toString().trim();
+        String condition = binding.etCondition.getText().toString().trim();
+
+        if (TextUtils.isEmpty(fullName)) {
+            binding.etFullName.setError("Required");
+            return;
+        }
+        if (TextUtils.isEmpty(gender) || gender.equals("Select gender")) {
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage("Select gender")
+                    .setPositiveButton("OK", null)
+                    .show();
+            return;
+        }
+        if (TextUtils.isEmpty(condition)) {
+            binding.etCondition.setError("Required");
+            return;
+        }
+        if (selectedLocation == null) {
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage("Select a location on the map")
+                    .setPositiveButton("OK", null)
+                    .show();
+            return;
+        }
+
+        // Save report to Firestore
+        Map<String, Object> report = new HashMap<>();
+        report.put("fullName", fullName);
+        report.put("gender", gender);
+        report.put("condition", condition);
+        report.put("latitude", selectedLocation.latitude);
+        report.put("longitude", selectedLocation.longitude);
+        db.collection("reports").add(report);
+
+        // Subscribe to push notifications
+        FirebaseMessaging.getInstance().subscribeToTopic("help_requests");
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Report Submitted")
+                .setMessage("Help request sent for " + fullName)
+                .setPositiveButton("OK", (dialog, which) -> navigationHelper.navigateToMain())
+                .show();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(KEY_FULL_NAME, etFullName.getText().toString());
-        outState.putInt(KEY_GENDER, spGender.getSelectedItemPosition());
-        outState.putString(KEY_CONDITION, etCondition.getText().toString());
+        outState.putString(KEY_FULL_NAME, binding.etFullName.getText().toString());
+        // Save the text for AutoCompleteTextView instead of position
+        outState.putString(KEY_GENDER, binding.spGender.getText().toString());
+        outState.putString(KEY_CONDITION, binding.etCondition.getText().toString());
+        if (selectedLocation != null) {
+            outState.putDouble(KEY_LAT, selectedLocation.latitude);
+            outState.putDouble(KEY_LNG, selectedLocation.longitude);
+        }
     }
 
-    private void shareLocation() {
-        Toast.makeText(this, "Location sharing functionality coming soon", Toast.LENGTH_SHORT).show();
-    }
-
-    private void saveReport() {
-        String fullName = etFullName.getText().toString().trim();
-        String gender = spGender.getSelectedItem() != null ? spGender.getSelectedItem().toString() : "";
-        String condition = etCondition.getText().toString().trim();
-
-        if (TextUtils.isEmpty(fullName)) {
-            etFullName.setError("Please enter full name");
-            return;
-        }
-
-        if (TextUtils.isEmpty(gender) || gender.equals("Select gender")) {
-            Toast.makeText(this, "Please select gender", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (TextUtils.isEmpty(condition)) {
-            etCondition.setError("Please describe condition");
-            return;
-        }
-
-        Toast.makeText(this, "Report saved successfully", Toast.LENGTH_SHORT).show();
-        navigationHelper.navigateToMain();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }

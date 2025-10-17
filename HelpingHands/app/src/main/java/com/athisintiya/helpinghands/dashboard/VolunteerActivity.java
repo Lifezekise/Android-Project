@@ -1,100 +1,104 @@
 package com.athisintiya.helpinghands.dashboard;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.athisintiya.helpinghands.R;
+import com.athisintiya.helpinghands.databinding.ActivityVolunteerBinding;
 import com.athisintiya.helpinghands.utils.NavigationHelper;
+import com.athisintiya.helpinghands.utils.SessionManager;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class VolunteerActivity extends AppCompatActivity {
-    private Spinner spRole;
-    private CheckBox cbTerms;
-    private Button btnVolunteer;
-    private TextView tvSkip;
+    private ActivityVolunteerBinding binding;
     private NavigationHelper navigationHelper;
+    private SessionManager sessionManager;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private static final String KEY_ROLE = "role";
     private static final String KEY_TERMS = "terms";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_volunteer);
+        binding = ActivityVolunteerBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         navigationHelper = new NavigationHelper(this);
-
-        fixTextColors();
-
-        spRole = findViewById(R.id.spRole);
-        cbTerms = findViewById(R.id.cbTerms);
-        btnVolunteer = findViewById(R.id.btnVolunteer);
-        tvSkip = findViewById(R.id.tvSkip);
+        sessionManager = new SessionManager(this);
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.volunteer_roles, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spRole.setAdapter(adapter);
+        binding.spRole.setAdapter(adapter);
+
+        binding.btnVolunteer.setOnClickListener(v -> handleVolunteer());
+        binding.tvSkip.setOnClickListener(v -> navigationHelper.navigateToMain());
 
         if (savedInstanceState != null) {
-            spRole.setSelection(savedInstanceState.getInt(KEY_ROLE, 0));
-            cbTerms.setChecked(savedInstanceState.getBoolean(KEY_TERMS, false));
+            binding.spRole.setSelection(savedInstanceState.getInt(KEY_ROLE));
+            binding.cbTerms.setChecked(savedInstanceState.getBoolean(KEY_TERMS));
+        }
+    }
+
+    private void handleVolunteer() {
+        String role = binding.spRole.getSelectedItem() != null ? binding.spRole.getSelectedItem().toString() : "";
+        if (TextUtils.isEmpty(role) || role.equals("--select--")) {
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage("Select a role")
+                    .setPositiveButton("OK", null)
+                    .show();
+            return;
         }
 
-        btnVolunteer.setOnClickListener(v -> handleVolunteer());
-        tvSkip.setOnClickListener(v -> navigationHelper.navigateToMain());
-    }
+        if (!binding.cbTerms.isChecked()) {
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage("You must agree to the Terms and Conditions")
+                    .setPositiveButton("OK", null)
+                    .show();
+            return;
+        }
 
-    private void fixTextColors() {
-        ViewGroup rootView = (ViewGroup) findViewById(android.R.id.content);
-        changeTextColorsRecursive(rootView);
-    }
+        com.google.firebase.auth.FirebaseUser fbUser = mAuth.getCurrentUser();
+        if (fbUser != null) {
+            Map<String, Object> volunteer = new HashMap<>();
+            volunteer.put("userId", fbUser.getUid());
+            volunteer.put("role", role);
+            volunteer.put("timestamp", System.currentTimeMillis());
+            db.collection("volunteers").add(volunteer);
 
-    private void changeTextColorsRecursive(ViewGroup viewGroup) {
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            View child = viewGroup.getChildAt(i);
-
-            if (child instanceof TextView) {
-                ((TextView) child).setTextColor(Color.BLACK);
-            }
-            if (child instanceof EditText) {
-                ((EditText) child).setTextColor(Color.BLACK);
-                ((EditText) child).setHintTextColor(Color.GRAY);
-            }
-            if (child instanceof ViewGroup) {
-                changeTextColorsRecursive((ViewGroup) child);
-            }
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage("Volunteered as " + role)
+                    .setPositiveButton("OK", (dialog, which) -> navigationHelper.navigateToMain())
+                    .show();
+        } else {
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage("User not logged in")
+                    .setPositiveButton("OK", null)
+                    .show();
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(KEY_ROLE, spRole.getSelectedItemPosition());
-        outState.putBoolean(KEY_TERMS, cbTerms.isChecked());
+        outState.putInt(KEY_ROLE, binding.spRole.getSelectedItemPosition());
+        outState.putBoolean(KEY_TERMS, binding.cbTerms.isChecked());
     }
 
-    private void handleVolunteer() {
-        String role = spRole.getSelectedItem() != null ? spRole.getSelectedItem().toString() : "";
-        if (TextUtils.isEmpty(role) || role.equals("--select--")) {
-            Toast.makeText(this, "Please select a role", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!cbTerms.isChecked()) {
-            Toast.makeText(this, "You must agree to the Terms and Conditions", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Toast.makeText(this, "Thank you for volunteering as a " + role + "!", Toast.LENGTH_LONG).show();
-        navigationHelper.navigateToMain();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }

@@ -1,76 +1,112 @@
 package com.athisintiya.helpinghands.model;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-/**
- * A model class representing a user.
- */
 public class User {
-    private String id;
     private String fullName;
     private String email;
-    private String password; // Hashed password (for demo purposes)
+    private String profileImageUrl;
+    private String id;
     private int donationCount;
-    private boolean active;
+    private String phoneNumber;
+    private String address;
 
-    public User(String fullName, String email, String password, String id) {
+    public User() {
+        // Default constructor required for Firestore
+        this.donationCount = 0;
+    }
+
+    public User(String fullName, String email, String profileImageUrl, String id) {
         this.fullName = fullName;
         this.email = email;
-        this.password = hashPassword(password); // Hash password
+        this.profileImageUrl = profileImageUrl;
         this.id = id;
         this.donationCount = 0;
-        this.active = true;
     }
 
-    public String getId() {
-        return id;
+    public User(String fullName, String email, String profileImageUrl, String id, int donationCount) {
+        this.fullName = fullName;
+        this.email = email;
+        this.profileImageUrl = profileImageUrl;
+        this.id = id;
+        this.donationCount = donationCount;
     }
 
+    // Getters and setters
     public String getFullName() {
-        return fullName;
+        return fullName != null ? fullName : "";
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
-        return email;
+        return email != null ? email : "";
     }
 
-    public String getPassword() {
-        return password;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl != null ? profileImageUrl : "";
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public String getId() {
+        return id != null ? id : "";
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getDonationCount() {
         return donationCount;
     }
 
+    public void setDonationCount(int donationCount) {
+        this.donationCount = donationCount;
+    }
+
     public void incrementDonationCount() {
         this.donationCount++;
     }
 
-    public boolean isActive() {
-        return active;
+    public String getPhoneNumber() {
+        return phoneNumber != null ? phoneNumber : "";
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    // Simple password hashing for demo purposes (use BCrypt in production)
-    private String hashPassword(String password) {
-        if (password == null) return null;
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(password.getBytes());
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return password; // Fallback (not secure)
-        }
+    public String getAddress() {
+        return address != null ? address : "";
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    // Helper methods
+    public String getUserId() {
+        return getId();
+    }
+
+    public boolean isValid() {
+        return !getFullName().isEmpty() && !getEmail().isEmpty() && !getId().isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", id='" + id + '\'' +
+                ", donationCount=" + donationCount +
+                '}';
     }
 }
