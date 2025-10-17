@@ -1,0 +1,51 @@
+<!-- Add this to your existing ResourcesActivity layout -->
+<com.google.android.material.card.MaterialCardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/CardStyle"
+    android:layout_margin="16dp"
+    android:id="@+id/cardNearestShelter"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nearest Shelter"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/on_surface" />
+
+        <TextView
+            android:id="@+id/tvShelterName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cape Town Shelter"
+            android:textSize="14sp"
+            android:textColor="@color/on_surface_variant"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/tvShelterDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1.2 km away"
+            android:textSize="12sp"
+            android:textColor="@color/primary"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/btnGetDirections"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get Directions"
+            style="@style/Widget.Material3.Button.Text"
+            android:layout_marginTop="12dp" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
