@@ -185,9 +185,7 @@ public class MainActivity extends AppCompatActivity {
             String userName = sessionManager.getUserName();
             String userEmail = sessionManager.getEmail();
 
-            // If you have a custom header, update it with user data
-            // Note: You need to have these IDs in your nav_header.xml
-            /*
+            
             View headerView = binding.navigationView.getHeaderView(0);
             TextView tvUserName = headerView.findViewById(R.id.tvUserName);
             TextView tvUserEmail = headerView.findViewById(R.id.tvUserEmail);
@@ -198,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
             if (tvUserEmail != null && userEmail != null && !userEmail.isEmpty()) {
                 tvUserEmail.setText(userEmail);
             }
-            */
+           
         }
     }
 
@@ -216,20 +214,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkAuthentication() {
-        // Optional: Add any authentication checks here
-        // For example, you might want to redirect to login if not authenticated
-        // if (!sessionManager.isLoggedIn()) {
-        //     navigationHelper.navigateToLogin();
-        // }
+         if (!sessionManager.isLoggedIn()) {
+             navigationHelper.navigateToLogin();
+         }
     }
 
     private void showHelpAndSupport() {
-        // You can implement help and support functionality here
-        // For example, open a help activity, show a dialog, or open a web page
         Toast.makeText(this, "Help & Support - Contact us at support@helpinghands.org", Toast.LENGTH_LONG).show();
 
-        // Example: Open email intent for support
-        /*
+        
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setData(Uri.parse("mailto:support@helpinghands.org"));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Helping Hands Support");
@@ -238,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, "No email app found", Toast.LENGTH_SHORT).show();
         }
-        */
+        
     }
 
     private void showAboutDialog() {
