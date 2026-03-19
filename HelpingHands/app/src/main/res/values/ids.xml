@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Existing IDs -->
+    
     <item name="goodsTypeSpinner" type="id"/>
     <item name="quantityEditText" type="id"/>
     <item name="newConditionCheckBox" type="id"/>
@@ -47,7 +47,7 @@
     <item name="account_button" type="id"/>
     <item name="resources_label" type="id"/>
 
-    <!-- Missing IDs from login layout -->
+   
     <item name="ivLogo" type="id"/>
     <item name="title" type="id"/>
     <item name="subtitle" type="id"/>
@@ -58,7 +58,7 @@
     <item name="nav_emergency" type="id"/>
     <item name="divider" type="id"/>
 
-    <!-- Additional IDs you might need -->
+   
     <item name="navigationView" type="id"/>
     <item name="drawerLayout" type="id"/>
     <item name="toolbar" type="id"/>
