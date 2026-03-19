@@ -123,7 +123,6 @@ public class ReportActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private void saveReport() {
         String fullName = binding.etFullName.getText().toString().trim();
-        // Use getText() for AutoCompleteTextView instead of getSelectedItem()
         String gender = binding.spGender.getText().toString().trim();
         String condition = binding.etCondition.getText().toString().trim();
 
