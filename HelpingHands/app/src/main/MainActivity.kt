@@ -94,13 +94,13 @@ fun AccountDetailBox(text: String) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            // The Modifier.border() function creates the stroke effect from your XML.
+            
             .border(
                 width = 1.dp,
-                color = Color(0xFF374151), // Placeholder for your @color/primary_dark
+                color = Color(0xFF374151),
                 shape = RoundedCornerShape(8.dp)
             )
-            .background(Color(0xFFF9FAFB)) // Placeholder for your @color/card_background
+            .background(Color(0xFFF9FAFB))
             .padding(horizontal = 12.dp, vertical = 12.dp)
     ) {
         Text(
