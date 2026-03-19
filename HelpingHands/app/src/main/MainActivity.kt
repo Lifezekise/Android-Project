@@ -33,10 +33,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/**
- * A composable function that defines the entire My Account screen UI.
- * It's structured to match the design from the Helping Hands PDF.
- */
+
 @Composable
 fun MyAccountScreen() {
     // The main container for the screen, providing a light gray background and padding.
@@ -90,13 +87,7 @@ fun MyAccountScreen() {
     }
 }
 
-/**
- * A reusable composable to display a single account detail field within a box.
- * This function has been updated to include a border, which is the Compose equivalent
- * of the <stroke> tag in an XML drawable.
- *
- * @param text The text to display inside the box.
- */
+
 @Composable
 fun AccountDetailBox(text: String) {
     Box(
