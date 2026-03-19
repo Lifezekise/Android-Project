@@ -68,7 +68,7 @@ public class MapUtils {
             googleMap.setMapStyle(style);
         } catch (Exception e) {
             e.printStackTrace();
-            // Continue without custom style if there's an error
+            
         }
     }
 
@@ -124,7 +124,7 @@ public class MapUtils {
         }
     }
 
-    // Additional utility methods
+    
     public static void centerMapOnLocation(GoogleMap googleMap, double latitude, double longitude, float zoomLevel) {
         if (googleMap != null) {
             LatLng location = new LatLng(latitude, longitude);
